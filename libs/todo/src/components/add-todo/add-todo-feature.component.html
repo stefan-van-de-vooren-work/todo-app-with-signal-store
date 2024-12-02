@@ -1,0 +1,17 @@
+<div class="bg-white rounded shadow p-4 m-4 flex items-center space-x-3">
+  <svg
+    class="h-6 w-6 flex-none fill-white hover:fill-sky-100 stroke-sky-500 stroke-2"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M12 5V19M5 12H19" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+
+  <input
+    class="h-10 focus:outline-none focus:border-teal"
+    type="text"
+    placeholder="Add a todo"
+    #todoInput
+    (keyup.enter)="onEnter(todoInput)"
+  />
+</div>

@@ -1,0 +1,15 @@
+<div class="bg-white rounded shadow p-4 m-4 flex space-x-3">
+  <button (click)="toggleTodoState()">
+    <svg
+      class="h-6 w-6 flex-none fill-white hover:fill-sky-100 stroke-sky-500 stroke-2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="11" />
+      @if (this.value().state === 'completed') {
+      <path d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9" fill="none" />
+      }
+    </svg>
+  </button>
+  <h3>{{ value().title }}</h3>
+</div>

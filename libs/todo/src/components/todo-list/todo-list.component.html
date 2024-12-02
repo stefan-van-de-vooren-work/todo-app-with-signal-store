@@ -1,0 +1,8 @@
+@for (todo of store.filtered(); track todo.id) {
+<todo-item
+  [value]="todo"
+  (updateState)="updateState($event, todo.id)"
+></todo-item>
+} @empty {
+<li>There are no todos.</li>
+}
