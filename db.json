@@ -1,0 +1,19 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "title": "learn angular",
+      "state": "open"
+    },
+    {
+      "title": "learn about Signal Store",
+      "id": "2",
+      "state": "completed"
+    },
+    {
+      "title": "prepare workshop",
+      "id": "3",
+      "state": "open"
+    }
+  ]
+}

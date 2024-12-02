@@ -1,14 +1,16 @@
-import { computed } from '@angular/core';
+import { computed, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import {
   patchState,
   signalStore,
   withComputed,
+  withHooks,
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { type Todo } from './todo.model';
 
-export type TodoState = Todo['state'];
+import type { Todo, TodoState } from './todo.model';
+
 export type FilterState = TodoState | 'all';
 
 type TodosState = {
@@ -19,20 +21,7 @@ type TodosState = {
 };
 
 const initialState: TodosState = {
-  todos: [
-    {
-      id: '1',
-      title: 'Angular',
-      description: 'Learn how Angular works',
-      state: 'open',
-    },
-    {
-      id: '2',
-      title: 'Signal store',
-      description: 'Learn the NgRx Signal Store works',
-      state: 'completed',
-    },
-  ],
+  todos: [],
   filter: { query: '', state: 'all' },
   isLoading: false,
   error: null,
@@ -64,12 +53,10 @@ export const TodoStore = signalStore(
       }));
     },
     addTodo: (todo: string) => {
-      console.log('Add todo', todo);
       patchState(store, (state) => {
         const newTodo: Todo = {
           id: Math.random().toString(36),
           title: todo,
-          description: 'Learn how Angular works',
           state: 'open',
         };
         return {
@@ -92,5 +79,22 @@ export const TodoStore = signalStore(
         }),
       }));
     },
-  }))
+  })),
+  withHooks({
+    onInit(store) {
+      const http = inject(HttpClient);
+      patchState(store, () => ({ isLoading: true }));
+      http.get<Todo[]>('http://localhost:3000/todos').subscribe({
+        next: (response) => {
+          patchState(store, () => ({ isLoading: false, todos: response }));
+        },
+        error: (error) => {
+          patchState(store, () => ({ isLoading: false, error: error.message }));
+          console.error(
+            'Error fetching todos. Start mock server with `npm run server`'
+          );
+        },
+      });
+    },
+  })
 );
